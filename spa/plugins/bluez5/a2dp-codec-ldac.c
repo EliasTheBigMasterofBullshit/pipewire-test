@@ -471,7 +471,7 @@ static void *codec_init(const struct media_codec *codec, uint32_t flags,
 #endif
 
 #ifdef ENABLE_LDAC_ABR
-	this->ldac_abr = ldac_ABR_get_handle();
+	this->ldac_abr = ldac_ABR_get_handle(NULL);
 	if (this->ldac_abr == NULL)
 		goto error_errno;
 #endif
