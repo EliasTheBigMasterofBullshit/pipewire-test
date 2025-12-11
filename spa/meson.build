@@ -79,17 +79,12 @@ if get_option('spa-plugins').allowed()
     summary({'LDAC ABR': ldac_abr_dep.found()}, bool_yn: true, section: 'Bluetooth audio codecs')
 
     if get_option('bluez5-codec-ldac-dec').allowed()
-      dep = dependency('ldacBT', required : false)
-      if dep.found() and cc.has_function('ldacBT_decode', dependencies : dep)
-        ldac_dec_dep = dep
-      else
-        dep = cc.find_library('ldacBT', required : false)
+      ldac_dec_dep = dependency('ldacBT-dec', required : false)
+      if not ldac_dec_dep.found()
+        dep = cc.find_library('ldacBT_dec', required : false)
         if dep.found() and cc.has_function('ldacBT_decode', dependencies : dep)
           ldac_dec_dep = dep
         endif
-      endif
-      if ldac_dec_dep.found()
-        ldac_dep = ldac_dec_dep # use ldacBT for both decode and encode
       endif
       if not ldac_dec_dep.found() and get_option('bluez5-codec-ldac-dec').enabled()
         error('LDAC decoder library not found')
